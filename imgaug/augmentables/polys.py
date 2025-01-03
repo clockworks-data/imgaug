@@ -1,8 +1,8 @@
 """Classes dealing with polygons."""
-from __future__ import print_function, division, absolute_import
+from __future__ import absolute_import, division, print_function
 
-import traceback
 import collections
+import traceback
 
 import numpy as np
 import scipy.spatial.distance
@@ -14,12 +14,12 @@ from .. import imgaug as ia
 from .. import random as iarandom
 from .base import IAugmentable
 from .utils import (
-    normalize_imglike_shape,
-    interpolate_points,
-    _remove_out_of_image_fraction_,
-    project_coords_,
+    _handle_on_image_shape,
     _normalize_shift_args,
-    _handle_on_image_shape
+    _remove_out_of_image_fraction_,
+    interpolate_points,
+    normalize_imglike_shape,
+    project_coords_,
 )
 
 
@@ -950,7 +950,7 @@ class Polygon(object):
         rr_face, cc_face = skimage.draw.polygon(
             yy_mask, xx_mask, shape=(height_mask, width_mask))
 
-        mask = np.zeros((height_mask, width_mask), dtype=np.bool)
+        mask = np.zeros((height_mask, width_mask), dtype=bool)
         mask[rr_face, cc_face] = True
 
         if image.ndim == 3:
@@ -2461,7 +2461,8 @@ class _ConcavePolygonRecoverer(object):
 
         # returns [(point, [(segment_p0, segment_p1), ..]), ...]
         from imgaug.external.poly_point_isect_py2py3 import (
-            isect_segments_include_segments)
+            isect_segments_include_segments,
+        )
 
         try:
             intersections = isect_segments_include_segments(segments)

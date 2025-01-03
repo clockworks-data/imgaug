@@ -20,22 +20,22 @@ List of augmenters:
 Note: :class:`~imgaug.augmenters.color.WithColorspace` is in ``color.py``.
 
 """
-from __future__ import print_function, division, absolute_import
+from __future__ import absolute_import, division, print_function
 
-from abc import ABCMeta, abstractmethod
 import copy as copy_module
-import re
-import itertools
 import functools
+import itertools
+import re
 import sys
+from abc import ABCMeta, abstractmethod
 
 import numpy as np
 import six
 import six.moves as sm
 
 import imgaug as ia
-from imgaug.augmentables.batches import (Batch, UnnormalizedBatch,
-                                         _BatchInAugmentation)
+from imgaug.augmentables.batches import Batch, UnnormalizedBatch, _BatchInAugmentation
+
 from .. import parameters as iap
 from .. import random as iarandom
 from . import base as iabase
@@ -1698,8 +1698,10 @@ class Augmenter(object):
             The augmented coordinate-based augmentables.
 
         """
-        from ..augmentables.utils import (convert_cbaois_to_kpsois,
-                                          invert_convert_cbaois_to_kpsois_)
+        from ..augmentables.utils import (
+            convert_cbaois_to_kpsois,
+            invert_convert_cbaois_to_kpsois_,
+        )
 
         kpsois = convert_cbaois_to_kpsois(cbaois)
         kpsois_aug = func(kpsois)
@@ -3384,7 +3386,7 @@ class SomeOf(Augmenter, list):
         # pylint: disable=invalid-name
         nn = self._get_n(nb_rows, random_state)
         nn = [min(n, len(self)) for n in nn]
-        augmenter_active = np.zeros((nb_rows, len(self)), dtype=np.bool)
+        augmenter_active = np.zeros((nb_rows, len(self)), dtype=bool)
         for row_idx, n_true in enumerate(nn):
             if n_true > 0:
                 augmenter_active[row_idx, 0:n_true] = 1
